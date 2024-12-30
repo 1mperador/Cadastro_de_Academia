@@ -1,0 +1,21 @@
+1. Cadastrar aulas com nome, descrição, horário, e número máximo de alunos.
+    Aluno Regular: Alunos que possuem um plano ativo na academia e têm acesso completo às aulas.
+__________________________________________________________________________________________________________
+
+2. Cadastrar alunos com nome, e-mail, telefone, e data de nascimento.
+    Aluno Visitante: Alunos que estão fazendo aulas experimentais ou possuem um acesso limitado (ex.: apenas um dia).
+__________________________________________________________________________________________________________
+
+3. Inscrever alunos nas aulas, mas respeitando o limite máximo de inscritos.
+
+__________________________________________________________________________________________________________
+
+4. Ver relatórios, como:
+    - Lista de alunos inscritos por aula.
+    - Lista de aulas com horários.
+    - Total de alunos na academia.
+
+__________________________________________________________________________________________________________
+
+5. Interface
+    Quero que esse sistema tenha uma interface web simples para que eu ou minha equipe possamos acessá-lo, e os dados devem ser armazenados em um banco de dados.
