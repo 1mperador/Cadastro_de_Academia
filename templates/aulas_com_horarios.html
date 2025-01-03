@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relatório de Aulas com Horários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .aula {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .aula h2 {
+            margin: 0;
+            color: #555;
+        }
+        .aula p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Relatório de Aulas com Horários</h1>
+    {% for aula in aulas %}
+        <div class="aula">
+            <h2>Aula: {{ aula.nome }}</h2>
+            <p>Horário: {{ aula.horario }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>
