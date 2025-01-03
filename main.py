@@ -15,21 +15,21 @@ class Aluno_Regular(Base):
 
     __tablename__ = "Aluno_Regular"
 
-    id                     = Column("id", Integer, primary_key=True, autoincrement=True)
-    nome                   = Column("nome", String, nullable=True)
-    email                  = Column("email", String, nullable=True)
-    telefone               = Column("telefone", String, nullable=True)
-    data_nasc              = Column("data_nasc", String, nullable=True)
-    max_inscritos          = Column(Integer, default=20)
+    id                     = Column("id",Integer, primary_key=True, autoincrement=True)
+    nome                   = Column("nome",String, nullable=True)
+    email                  = Column("email",String, nullable=True)
+    telefone               = Column("telefone",String, nullable=True)
+    data_nasc              = Column("data_nasc",String, nullable=True)
+    max_inscritos          = Column("max_inscritos",Integer, nullable=False, default=10)
+    alunos_atual           = Column("alunos_atual",Integer, nullable=False, default=0)
 
-
-    def __init__(self, nome, email, telefone, data_nasc, max_inscritos):
+    def __init__(self, nome, email, telefone, data_nasc,max_inscritos=None):
         self.nome                   = nome
         self.email                  = email
         self.telefone               = telefone
         self.data_nasc              = data_nasc
-        self.max_inscritos          = max_inscritos
-
+        self.max_inscritos          = max_inscritos if max_inscritos is not None else 10
+        self.alunos_atual           = 0
 
 
 
@@ -44,17 +44,33 @@ class Aluno_Visitante(Base):
 
     __tablename__ = "Aluno_Visitante"
 
-    id          = Column("id", Integer, primary_key=True, autoincrement=True)
-    nome        = Column("nome", String, nullable=True)
-    descricao   = Column(String)
-    horario     = Column("horario", String, nullable=True)
-    max_inscritos = Column(Integer, default=20)
+    id              = Column("id", Integer, primary_key=True, autoincrement=True)
+    nome            = Column("nome", String, nullable=True)
+    descricao       = Column("descrição",String,nullable=True)
+    horario         = Column("horario", String, nullable=True)
+    max_inscritos   = Column("max_inscritos",Integer,nullable=False, default=10)
 
-    def __init__(self, nome, descricao, horario, max_inscritos):
-        self.nome       = nome 
-        self.descricao  = descricao
-        self.horario    = horario
-        self.max_inscritos = max_inscritos
+    def __init__(self, nome, descricao, horario, max_inscritos=None):
+        self.nome           = nome 
+        self.descricao      = descricao
+        self.horario        = horario
+        self.max_inscritos  = max_inscritos if max_inscritos is not None else 10
+
+# Criação do banco de dados
+Base.metadata.create_all(bind=db)
+
+
+def adicionar_aluno(aula_id, session):
+    aula = session.query(Aluno_Regular).filter_by(id=aula_id).first()
+    if not aula:
+        raise Exception("Aula não encontrada.")
+    
+    if aula.alunos_atual >= aula.max_inscritos:
+        raise Exception(f"Limite de {aula.max_inscritos} alunos já atingido para esta aula.")
+    
+    aula.alunos_atual += 1
+    session.commit()
+    print(f"Aluno adicionado com sucesso! Total atual: {aula.alunos_atual}/{aula.max_inscritos}")
 
 # def verificar_limite(aula_id, session):
 #     aula = session.query(Aluno_Visitante).filter_by(id=aula_id).first()
@@ -63,16 +79,19 @@ class Aluno_Visitante(Base):
 
 # test1 = Aluno_Visitante("Ipman", "emailttst@hotmail.com", "(19) 9 43434 4343","12/05/2001","01/01/2025") 
 
-nova_aula = Aluno_Visitante(nome="Yoga", descricao="Aula de yoga relaxante", horario="18:00", max_inscritos=20)
-session.add(nova_aula)
-session.commit()
+# nova_aula = Aluno_Visitante(nome="Yoga", descricao="Aula de yoga relaxante", horario="18:00")
+# session.add(nova_aula)
+# session.commit()
 
-novo_aluno = Aluno_Regular(nome="Pablo", email="emailexe@gmail.com", telefone="(19)92233-9334", data_nasc="12/01/1998")
+# novo_aluno = Aluno_Regular(nome="Pablo", email="emailexe@gmail.com", telefone="(19)92233-9334", data_nasc="12/01/1998")
+# session.add(novo_aluno)
+# session.commit()
+novo_aluno = Aluno_Regular(nome="Ana", email="anaemail@gmail.com", telefone="(19)92113-9334", data_nasc="01/01/2001")
 session.add(novo_aluno)
 session.commit()
 
 
-
+print("Aula cadastrada com sucesso!")
 
 
 # TODO VALIDAÇÃO DE NUMEROS DE TELEFONE
@@ -93,4 +112,3 @@ session.commit()
 #     print("Número inválido!")
 
 
-Base.metadata.create_all(bind=db)
