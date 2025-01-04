@@ -5,26 +5,36 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         h1 {
-            color: #333;
+            color: #ffffff;
+            text-align: center;
         }
         .total {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-top: 10px;
+            border: 1px solid #333;
+            padding: 20px;
             border-radius: 5px;
+            background-color: #1e1e1e;
+            text-align: center;
         }
         .total p {
             margin: 0;
-            color: #555;
+            color: #cccccc;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <h1>Total de Alunos na Academia</h1>
     <div class="total">
+        <h1>Total de Alunos na Academia</h1>
         <p>Total de alunos: {{ total }}</p>
     </div>
 </body>

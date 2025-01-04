@@ -76,8 +76,13 @@ def relatorio_alunos_por_aula():
 
 @app.route('/relatorio/aulas_com_horarios')
 def relatorio_aulas_com_horarios():
-    aulas = session.query(Aluno_Regular).all()
+    aulas = session.query(Aluno_Visitante).all()
     return render_template('aulas_com_horarios.html', aulas=aulas)
+
+# @app.route('/relatorio/aulas_com_horarios')
+# def relatorio_aulas_com_horarios():
+#     aulas = session.query(Aluno_Regular).all()
+#     return render_template('aulas_com_horarios.html', aulas=aulas)
 
 @app.route('/relatorio/total_de_alunos')
 def relatorio_total_de_alunos():
@@ -87,22 +92,26 @@ def relatorio_total_de_alunos():
 @app.route('/adicionar_aluno', methods=['GET', 'POST'])
 def adicionar_aluno():
     if request.method == 'POST':
+        tipo = request.form['tipo']
         nome = request.form['nome']
         email = request.form['email']
         telefone = request.form['telefone']
         data_nasc = request.form['data_nasc']
+        horario = request.form.get('horario')
         
-        novo_aluno = Aluno_Regular(nome=nome, email=email, telefone=telefone, data_nasc=data_nasc)
+        if tipo == 'regular':
+            novo_aluno = Aluno_Regular(nome=nome, email=email, telefone=telefone, data_nasc=data_nasc)
+        else:
+            descricao = "Visitante"
+            novo_aluno = Aluno_Visitante(nome=nome, descricao=descricao, horario=horario)
+        
         session.add(novo_aluno)
-        session.commit()
-         
-        # Atualiza a contagem de alunos
-        novo_aluno.alunos_atual = Aluno_Regular.contar_alunos()
         session.commit()
         
         return redirect(url_for('relatorio_alunos_por_aula'))
     
     return render_template('adicionar_aluno.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
     

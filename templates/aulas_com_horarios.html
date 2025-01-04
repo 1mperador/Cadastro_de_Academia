@@ -6,32 +6,84 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #121212;
+            color: #ffffff;
         }
         h1 {
-            color: #333;
+            text-align: center;
+            color: #ffffff;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
         .aula {
-            border: 1px solid #ddd;
+            border: 1px solid #333;
             padding: 10px;
-            margin-bottom: 10px;
+            margin: 10px;
             border-radius: 5px;
+            background-color: #1e1e1e;
+            width: 45%;
+            box-sizing: border-box;
         }
         .aula h2 {
             margin: 0;
-            color: #555;
+            color: #ffffff;
         }
         .aula p {
             margin: 5px 0;
+            color: #cccccc;
+        }
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .link a {
+            color: #28a745;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .link a:hover {
+            text-decoration: underline;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button-container a:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
     <h1>Relatório de Aulas com Horários</h1>
-    {% for aula in aulas %}
-        <div class="aula">
-            <h2>Aula: {{ aula.nome }}</h2>
-            <p>Horário: {{ aula.horario }}</p>
-        </div>
-    {% endfor %}
+    <div class="container">
+        {% if aulas %}
+            {% for aula in aulas %}
+                <div class="aula">
+                    <h2>Aula: {{ aula.nome }}</h2>
+                    <p>Horário: {{ aula.horario }}</p>
+                    <p>Alunos inscritos: {{ aula.max_inscritos }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Não tem aluno visitante.</p>
+        {% endif %}
+    </div>
+    <div class="link">
+        <a href="{{ url_for('relatorio_alunos_por_aula') }}">Ver Relatório de Alunos por Aula</a>
+    </div>
+    <div class="button-container">
+        <a href="{{ url_for('adicionar_aluno') }}">Adicionar Mais Alunos</a>
+    </div>
 </body>
 </html>

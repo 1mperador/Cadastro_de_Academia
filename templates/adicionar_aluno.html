@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adicionar Aluno Regular</title>
+    <title>Adicionar Aluno</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #121212;
+            color: #ffffff;
         }
         h1 {
-            color: #333;
+            text-align: center;
+            color: #ffffff;
         }
         form {
             max-width: 400px;
             margin: auto;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
         label {
             display: block;
             margin-top: 10px;
         }
-        input[type="text"], input[type="email"], input[type="date"] {
+        input[type="text"], input[type="email"], input[type="date"], select {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
             box-sizing: border-box;
+            background-color: #333;
+            border: 1px solid #555;
+            color: #ffffff;
         }
         button {
             margin-top: 20px;
@@ -31,26 +41,73 @@
             color: white;
             border: none;
             cursor: pointer;
+            width: 100%;
         }
         button:hover {
             background-color: #218838;
         }
+        .hidden {
+            display: none;
+        }
     </style>
+    <script>
+        function toggleFields() {
+            var tipo = document.getElementById('tipo').value;
+            var horarioField = document.getElementById('horario-field');
+            var emailField = document.getElementById('email-field');
+            var dataNascField = document.getElementById('data_nasc-field');
+            var telefoneField = document.getElementById('telefone-field');
+            if (tipo === 'visitante') {
+                horarioField.classList.remove('hidden');
+                emailField.classList.add('hidden');
+                dataNascField.classList.add('hidden');
+                telefoneField.classList.add('hidden');
+                document.getElementById('email').required = false;
+                document.getElementById('data_nasc').required = false;
+                document.getElementById('telefone').required = false;
+            } else {
+                horarioField.classList.add('hidden');
+                emailField.classList.remove('hidden');
+                dataNascField.classList.remove('hidden');
+                telefoneField.classList.remove('hidden');
+                document.getElementById('email').required = true;
+                document.getElementById('data_nasc').required = true;
+                document.getElementById('telefone').required = true;
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Adicionar Aluno</h1>
     <form method="POST" action="{{ url_for('adicionar_aluno') }}">
+        <label for="tipo">Tipo de Aluno:</label>
+        <select id="tipo" name="tipo" required onchange="toggleFields()">
+            <option value="regular">Regular</option>
+            <option value="visitante">Visitante</option>
+        </select>
+        
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
         
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <div id="email-field">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
         
-        <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" name="telefone" required>
+        <div id="telefone-field">
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" required>
+        </div>
+
+        <div id="data_nasc-field">
+            <label for="data_nasc">Data de Nascimento:</label>
+            <input type="date" id="data_nasc" name="data_nasc" required>
+        </div>
         
-        <label for="data_nasc">Data de Nascimento:</label>
-        <input type="date" id="data_nasc" name="data_nasc" required>
+        <div id="horario-field" class="hidden">
+            <label for="horario">Horário:</label>
+            <input type="text" id="horario" name="horario">
+        </div>
         
         <button type="submit">Adicionar Aluno</button>
     </form>

@@ -12,5 +12,6 @@
 - **SQLAlchemy** para ORM (Object Relational Mapping).
 - **SQLite** como banco de dados local.
 - **Alembic** é uma ferramenta de migração de banco de dados.
+- **Flask** usado para criar uma interface.
 
 *O sistema foi pensado para ser simples, funcional e extensível, permitindo que seja usado em academias de pequeno e médio porte.*
